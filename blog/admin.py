@@ -13,6 +13,7 @@ class PostAdmin(admin.ModelAdmin):
     list_filter = ('pub_date', 'author', 'tags')
     search_fields = ('title', 'content')
     prepopulated_fields = {'slug': ('title',)}
+    filter_horizontal = ('tags',)
     inlines = [PostImageInline]
     date_hierarchy = 'pub_date'
 
