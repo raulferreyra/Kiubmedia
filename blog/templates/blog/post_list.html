@@ -8,13 +8,16 @@
     style="background-image: url('{{ latest_post.images.first.image.url|default:'https://via.placeholder.com/1920x600?text=KIUB+Media' }}');">
     <div class="hero-overlay">
         <div class="container">
-            <h1 class="display-4 fw-bold mb-3">{{ latest_post.title }}</h1>
+            <a href="{{ latest_post.get_absolute_url }}" class="text-white text-decoration-none">
+                {{ latest_post.title }}
+            </a>
             <p class="lead">
                 {% if latest_post.author %}
                 Por {{ latest_post.author.get_full_name|default:latest_post.author.username }}
                 {% endif %}
                 • {{ latest_post.pub_date|date:"d M Y" }}
             </p>
+            <a href="{{ latest_post.get_absolute_url }}" class="btn btn-primary btn-lg mt-3">Leer más</a>
         </div>
     </div>
 </section>
@@ -29,11 +32,14 @@
             <img src="{{ post.images.first.image.url }}" class="card-img-top" alt="{{ post.title }}">
             {% endif %}
             <div class="card-body">
-                <h5 class="card-title">{{ post.title }}</h5>
+                <a href="{{ post.get_absolute_url }}" class="text-dark text-decoration-none">
+                    {{ post.title }}
+                </a>
                 <p class="text-muted small">
                     {{ post.pub_date|date:"d M Y" }}
                     {% if post.author %} • {{ post.author.get_full_name|default:post.author.username }}{% endif %}
                 </p>
+                <a href="{{ post.get_absolute_url }}" class="btn btn-outline-primary btn-sm mt-2">Leer más</a>
             </div>
         </div>
         {% endif %}
