@@ -1,12 +1,46 @@
 {% extends 'blog/base.html' %}
-{% block title %}KIUB Media - Noticias y más{% endblock %}
+{% block title %}KIUB Media{% endblock %}
 
 {% block content %}
 
 {% if latest_post %}
-<!-- Banner principal: último post -->
-<section class="hero mb-5">
+<section class="hero mb-5"
+    style="background-image: url('{{ latest_post.images.first.image.url|default:'https://via.placeholder.com/1920x600?text=KIUB+Media' }}');">
+    <div class="hero-overlay">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-3">{{ latest_post.title }}</h1>
+            <p class="lead">
+                {% if latest_post.author %}
+                Por {{ latest_post.author.get_full_name|default:latest_post.author.username }}
+                {% endif %}
+                • {{ latest_post.pub_date|date:"d M Y" }}
+            </p>
+        </div>
+    </div>
 </section>
 {% endif %}
+
+<div class="container py-5">
+    <div class="masonry-grid">
+        {% for post in posts %}
+        {% if not latest_post or post != latest_post %}
+        <div class="card shadow-sm">
+            {% if post.images.first %}
+            <img src="{{ post.images.first.image.url }}" class="card-img-top" alt="{{ post.title }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                <p class="text-muted small">
+                    {{ post.pub_date|date:"d M Y" }}
+                    {% if post.author %} • {{ post.author.get_full_name|default:post.author.username }}{% endif %}
+                </p>
+            </div>
+        </div>
+        {% endif %}
+        {% empty %}
+        <p class="text-center text-muted py-5">No hay más publicaciones.</p>
+        {% endfor %}
+    </div>
+</div>
 
 {% endblock %}
