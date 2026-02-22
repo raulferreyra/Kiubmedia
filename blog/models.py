@@ -34,7 +34,17 @@ class Post(models.Model):
         related_name='blog_posts',
         verbose_name="Autor"
     )
-    content = models.TextField(verbose_name="Contenido")
+    lead = models.TextField(
+        blank=True,
+        verbose_name="Gorro / Introducción (lead)",
+        help_text="Texto destacado al inicio del artículo. Se muestra en negrita o con estilo diferente."
+    )
+    content = models.TextField(verbose_name="Contenido principal")
+    closing = models.TextField(
+        blank=True,
+        verbose_name="Cierre / Conclusión",
+        help_text="Texto final del post (despedida, reflexión, llamada a acción, etc.)"
+    )
     tags = models.ManyToManyField(Tag, blank=True, verbose_name="Etiquetas")
     youtube_url = models.URLField(max_length=200, blank=True, null=True, verbose_name="Link de YouTube (opcional)")
     pub_date = models.DateTimeField(default=timezone.now, verbose_name="Fecha de publicación")
