@@ -1,0 +1,66 @@
+{% extends 'blog/base.html' %}
+{% block title %}{{ post.title }} - KIUB Media{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+    <article class="post-detail mx-auto" style="max-width: 900px;">
+
+        <!-- Título principal -->
+        <h1 class="display-4 fw-bold mb-3">{{ post.title }}</h1>
+
+        <!-- Meta info -->
+        <p class="text-muted mb-4">
+            Por {{ post.author.get_full_name|default:post.author.username|default:"Anónimo" }}
+            • {{ post.pub_date|date:"d \\d\\e F \\d\\e Y" }}
+            {% if post.tags.all %}
+            • {% for tag in post.tags.all %}<span class="badge bg-secondary me-1">{{ tag.name }}</span>{% endfor %}
+            {% endif %}
+        </p>
+
+        <!-- Gorro / Lead (si existe) -->
+        {% if post.lead %}
+        <div class="lead fw-medium fs-4 mb-5 border-start border-5 border-primary ps-4 py-2 bg-light">
+            {{ post.lead|linebreaks }}
+        </div>
+        {% endif %}
+
+        <!-- Contenido principal con estilos -->
+        <div class="post-content fs-5 lh-lg">
+            {{ post.content|linebreaks|safe }}
+        </div>
+
+        <!-- Video YouTube (si existe) -->
+        {% if post.get_youtube_embed %}
+        <div class="my-5 ratio ratio-16x9">
+            {{ post.get_youtube_embed|safe }}
+        </div>
+        {% endif %}
+
+        <!-- Galería de imágenes -->
+        {% if post.images.all %}
+        <h4 class="mt-5 mb-4">Galería</h4>
+        <div class="row g-3">
+            {% for img in post.images.all %}
+            <div class="col-md-6 col-lg-4">
+                <img src="{{ img.image.url }}" class="img-fluid rounded shadow-sm"
+                    alt="{{ post.title }} - imagen {{ forloop.counter }}">
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Cierre / Conclusión (si existe) -->
+        {% if post.closing %}
+        <div class="mt-5 pt-4 border-top">
+            <h4 class="fw-bold mb-3">En resumen</h4>
+            <div class="fst-italic text-muted fs-5">
+                {{ post.closing|linebreaks }}
+            </div>
+        </div>
+        {% endif %}
+
+    </article>
+</div>
+
+{% endblock %}
