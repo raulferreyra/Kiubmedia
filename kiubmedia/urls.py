@@ -16,7 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from blog import views
 
 urlpatterns = [
+    path('', views.post_list, name='post_list'),
     path('admin/', admin.site.urls),
 ]
+
+# Personalización del sitio admin
+admin.site.site_header = "KIUB Media Administración"
+admin.site.site_title = "KIUB Media Admin"
+admin.site.index_title = "Panel de KIUB Media"
